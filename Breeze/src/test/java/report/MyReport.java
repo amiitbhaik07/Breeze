@@ -1,5 +1,6 @@
 package report;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -16,10 +17,18 @@ public class MyReport implements IReport
 	ExtentTest currentExtentTest = null;
 	boolean featureSuccess = true;
 	int total=0, fail=0;
+	private String extentReportFolderPath;
+	public String extentReportHtmlPath;
 	
-	public MyReport(String featureName)
+	public MyReport(String featureName, String reportPath)
 	{
-		html = new ExtentHtmlReporter(featureName + ".html");
+		if(featureName.toLowerCase().contains("consolidated")&&featureName.toLowerCase().contains("report"))
+			extentReportFolderPath = reportPath + "\\";
+		else
+			extentReportFolderPath = reportPath + featureName + "\\";
+		new File(extentReportFolderPath).mkdirs();
+		extentReportHtmlPath = extentReportFolderPath + featureName + ".html";
+		html = new ExtentHtmlReporter(extentReportHtmlPath);
 		currentExtentReport = new ExtentReports();
 		currentExtentReport.attachReporter(html);
 	}
@@ -32,6 +41,7 @@ public class MyReport implements IReport
 	@Override
 	public void StartTest(String testName) 
 	{
+		new File(extentReportFolderPath + testName).mkdirs();
 		total++;
 		if(currentExtentTest!=null)
 			allExtentTests.add(currentExtentTest);
@@ -67,7 +77,10 @@ public class MyReport implements IReport
 			
 		case SKIP :
 			currentExtentTest.skip(stepDescription);
-			break;			
+			break;		
+			
+		case INFO:
+			currentExtentTest.info(stepDescription);
 		}
 	}
 }
