@@ -13,8 +13,8 @@ public class BddHooks
 	@Before("@FirstScenario")
 	public void BeforeFeature(Scenario scenario)
 	{
-	    String rawFeatureName = scenario.getId().split(";")[0].replace("-","_");
-	    String featureName = "Feature_" + rawFeatureName.substring(0, 1).toUpperCase() + rawFeatureName.substring(1);
+	    String rawFeatureName = scenario.getId().split(";")[0].replace("-"," ");
+	    String featureName = rawFeatureName.substring(0, 1).toUpperCase() + rawFeatureName.substring(1);
 		isLastScenario = false;
 		Singleton.getInstance().testBase.runBeforeEveryFeature(featureName);
 	}

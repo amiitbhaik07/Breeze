@@ -17,7 +17,7 @@ public class MyReportCollection implements IReportCollection
 	public ArrayList<MyReport> allExtentReports = new ArrayList<MyReport>();
 	public MyReport myReport;
 	public MyReport consolidatedReport;
-	
+		
 	public MyReportCollection()
 	{
 		consolidatedReport = new MyReport("Consolidated_Report");
@@ -38,11 +38,11 @@ public class MyReportCollection implements IReportCollection
 	@Override
 	public void CompleteExtentReport()
 	{
-		myReport.EndReport();
-		if(consolidatedReport.featureSuccess)
+		if(myReport.featureSuccess)
 			consolidatedReport.AddStepResult(LOG_STATUS.PASS, "All scenarios passed!");
 		else
 			consolidatedReport.AddStepResult(LOG_STATUS.FAIL, "'"+myReport.fail+"' out of '"+myReport.total+"' scenarios failed!");
+		myReport.EndReport();
 		allExtentReports.add(myReport);
 	}
 }
