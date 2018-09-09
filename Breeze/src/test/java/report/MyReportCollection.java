@@ -20,7 +20,8 @@ public class MyReportCollection implements IReportCollection
 		
 	public MyReportCollection()
 	{
-		consolidatedReport = new MyReport("Consolidated_Report");
+		new ReportMetadata();
+		consolidatedReport = new MyReport("Consolidated_Report", ReportMetadata.reportFolder);
 	}
 	
 	public void CompleteMyCollection()
@@ -31,9 +32,9 @@ public class MyReportCollection implements IReportCollection
 	@Override
 	public void AddExtentReport(String feature)
 	{
-		myReport = new MyReport(feature);
+		myReport = new MyReport(feature, ReportMetadata.reportFolder);
 		consolidatedReport.StartTest(feature);
-	}
+	}//D:\Git\Breeze\Reports\2018_09_09\Run_20_44_47\
 
 	@Override
 	public void CompleteExtentReport()
@@ -42,6 +43,7 @@ public class MyReportCollection implements IReportCollection
 			consolidatedReport.AddStepResult(LOG_STATUS.PASS, "All scenarios passed!");
 		else
 			consolidatedReport.AddStepResult(LOG_STATUS.FAIL, "'"+myReport.fail+"' out of '"+myReport.total+"' scenarios failed!");
+		consolidatedReport.AddStepResult(LOG_STATUS.INFO, "<a href=\""+myReport.extentReportHtmlPath.replace(ReportMetadata.reportFolder, "")+"\">Please click here for details.</a>");
 		myReport.EndReport();
 		allExtentReports.add(myReport);
 	}

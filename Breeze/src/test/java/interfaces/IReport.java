@@ -2,7 +2,7 @@ package interfaces;
 
 public interface IReport 
 {
-	public enum LOG_STATUS {PASS, FAIL, SKIP}
+	public enum LOG_STATUS {PASS, FAIL, SKIP, INFO}
 	
 	public void EndReport();
 	
